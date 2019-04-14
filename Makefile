@@ -4,9 +4,9 @@ CXX = clang++
 
 CXXFLAGS ?= -g -Wall
 CXXFLAGS += `pkg-config --cflags xcb`
-LDFLAGS = `pkg-config --libs xcb xcb-util`
+LDFLAGS   = `pkg-config --libs xcb xcb-util`
 
-SRCDIR = src
+SRCDIR   = src
 BUILDDIR = obj
 
 WMSRC     = main.cpp manager.cpp
@@ -15,15 +15,13 @@ WMOBJECTS = main.o manager.o
 
 WMTARGET = headmaster
 
-.cpp.o:
-	$(CXX) $(CXXFLAGS) -o $@ -c $<
-
 all: $(WMTARGET)
 
 $(WMTARGET): $(WMOBJECTS)
-		$(CXX) $(LDFLAGS) -o $(WMTARGET) $(WMOBJECTS)
+	$(CXX) $(LDFLAGS) -o $(WMTARGET) $(WMOBJECTS)
 
 $(WMOBJECTS): $(WMHEADERS) $(WMSRC)
 
-clean:
-	rm -f $(WMTARGET)
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
