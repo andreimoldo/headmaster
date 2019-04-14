@@ -28,16 +28,16 @@ Manager::~Manager() {
 }
 
 void Manager::handleKeyRelease(xcb_key_release_event_t *event) {
-  printf("event = %s, ", xcb_event_get_label(event->response_type));
-  // printf("keycode = %i", event->detail);
+  fprintf(stderr, "e: %s, k: %i\n", xcb_event_get_label(event->response_type), event->detail);
 }
 
 void Manager::handleEvent(xcb_generic_event_t *event) {
   uint8_t responseType = XCB_EVENT_RESPONSE_TYPE(event);
 
+
   switch(responseType) {
   case XCB_KEY_RELEASE:
-    handleKeyRelease((xcb_key_release_event_t *) event);
+    handleKeyRelease((xcb_key_release_event_t *)event);
     break;
   }
 }
@@ -53,6 +53,7 @@ void Manager::run() {
     default:
       handleEvent(event);
     }
+    free(event);
   }
 }
 
