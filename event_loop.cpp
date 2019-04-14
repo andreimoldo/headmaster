@@ -8,7 +8,6 @@
 
 EventLoop::EventLoop(xcb_connection_t *xcb_connection) {
   running = 0;
-  fprintf(stderr, "here %p\n", connection);
   connection = xcb_connection;
 }
 
@@ -20,7 +19,6 @@ void EventLoop::run() {
   running = 1;
   xcb_generic_event_t *event;
 
-  fprintf(stderr, "here %p\n", connection);
   while (running && (event = xcb_wait_for_event(connection))) {
     switch (event->response_type) {
     case XCB_KEY_PRESS:
