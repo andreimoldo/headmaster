@@ -9,9 +9,9 @@ LDFLAGS   = `pkg-config --libs xcb xcb-util`
 SRCDIR   = src
 BUILDDIR = obj
 
-WMSRC     = main.cpp manager.cpp
-WMHEADERS = manager.hpp
-WMOBJECTS = main.o manager.o
+WMSRC     = event_loop.cpp main.cpp manager.cpp
+WMHEADERS = event_loop.hpp manager.hpp
+WMOBJECTS = event_loop.o main.o manager.o
 
 WMTARGET = headmaster
 

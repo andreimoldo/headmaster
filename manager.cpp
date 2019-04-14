@@ -5,6 +5,7 @@ extern "C" {
   #include <xcb/xcb_util.h>
 }
 
+#include "event_loop.hpp"
 #include "manager.hpp"
 
 Manager::Manager(const char* display) {
@@ -33,7 +34,6 @@ void Manager::handleKeyRelease(xcb_key_release_event_t *event) {
 
 void Manager::handleEvent(xcb_generic_event_t *event) {
   uint8_t responseType = XCB_EVENT_RESPONSE_TYPE(event);
-
 
   switch(responseType) {
   case XCB_KEY_RELEASE:
