@@ -3,13 +3,14 @@
 
 #include <xcb/xcb.h>
 
+#include "event_loop.hpp"
+
 class Manager {
 private:
+  EventLoop *eventLoop;
+
   xcb_connection_t *connection;
   xcb_screen_t *screen;
-
-  void handleEvent(xcb_generic_event_t *event);
-  void handleKeyRelease(xcb_key_release_event_t *event);
 
 public:
   Manager(const char* display);

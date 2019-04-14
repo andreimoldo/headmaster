@@ -2,7 +2,7 @@
 
 CXX = clang++
 
-CXXFLAGS ?= -g -Wall
+CXXFLAGS += -g -Wall -std=c++0x
 CXXFLAGS += `pkg-config --cflags xcb`
 LDFLAGS   = `pkg-config --libs xcb xcb-util`
 

@@ -1,9 +1,8 @@
-extern "C" {
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <xcb/xcb.h>
-  #include <xcb/xcb_util.h>
-}
+#include <cstdio>
+#include <cstdlib>
+
+#include <xcb/xcb.h>
+#include <xcb/xcb_util.h>
 
 #include "event_loop.hpp"
 #include "manager.hpp"
@@ -22,39 +21,16 @@ Manager::Manager(const char* display) {
 
   xcb_change_window_attributes(connection, screen->root, XCB_CW_EVENT_MASK, select_input_val);
   xcb_flush(connection);
+
+  eventLoop = new EventLoop(connection);
 }
 
 Manager::~Manager() {
   xcb_disconnect(connection);
 }
 
-void Manager::handleKeyRelease(xcb_key_release_event_t *event) {
-  fprintf(stderr, "e: %s, k: %i\n", xcb_event_get_label(event->response_type), event->detail);
-}
-
-void Manager::handleEvent(xcb_generic_event_t *event) {
-  uint8_t responseType = XCB_EVENT_RESPONSE_TYPE(event);
-
-  switch(responseType) {
-  case XCB_KEY_RELEASE:
-    handleKeyRelease((xcb_key_release_event_t *)event);
-    break;
-  }
-}
-
 void Manager::run() {
-  xcb_generic_event_t *event;
-  int running = 1;
-  while (running && (event = xcb_wait_for_event(connection))) {
-    switch (event->response_type) {
-    case XCB_KEY_PRESS:
-      running = 0;
-      break;
-    default:
-      handleEvent(event);
-    }
-    free(event);
-  }
+  eventLoop->run();
 }
 
 void Manager::createWindow(int x, int y) {
